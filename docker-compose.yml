@@ -1,0 +1,35 @@
+services:
+
+  application:
+    container_name: application
+    build:
+      context: .
+      dockerfile: config/docker/Dockerfile.rails
+    env_file:
+      - .env
+    environment:
+      - PIDFILE=tmp/pids/server_1.pid
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./:/var/www/example
+
+  postgres_db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: 12345qwerty
+      PGDATA: /tmp
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      # If postgres container contain file with permissions postgres:postrges
+      # stop container then comment string below, up container without string and rebuild with uncommented string
+      # problem seen on docker-desktop mac os x
+      - ./config/docker/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
+
+volumes:
+  postgres:
+    driver: local
