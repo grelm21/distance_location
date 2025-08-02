@@ -1,0 +1,6 @@
+<div class='flex col-span-12 bg-gray-200'>
+  <%= form_with url: search_locations_path, method: :post, format: :turbo_stream, data: { turbo_frame: "locations" } do |f| %>
+    <%= f.text_field :query, placeholder: 'Search...', class: 'w-full' %>
+  <%= f.submit 'Search' %>
+  <% end %>
+</div>

@@ -6,7 +6,15 @@ class LocationsController < ApplicationController
   def search
     @locations = Api::YandexGeocoder.cities_and_towns(params[:query])
 
-    render json: @locations.to_json
+    # render json: @locations.to_json
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update('locations', partial: 'locations/location', collection: @locations, as: :location)
+        ]
+      end
+      format.json { render json: @locations.to_json }
+    end
   end
 
   def index
@@ -19,10 +27,12 @@ class LocationsController < ApplicationController
     @location = Location.new(location_params.except(:lonlat))
     @location.lonlat = parse_point(location_params[:lonlat_string])
 
-    if @location.save
-      render json: @location.to_json
-    else
-      render json: @location.errors.to_json, status: :unprocessable_entity
+    respond_to do |format|
+      if @location.save
+        format.json { render json: @location.to_json }
+      else
+        format.json { render json: @location.errors.to_json, status: :unprocessable_entity }
+      end
     end
   end
 

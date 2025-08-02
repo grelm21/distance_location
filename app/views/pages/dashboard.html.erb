@@ -1,4 +1,14 @@
-<div class="grid grid-cols-12 bg-gray-200">
-  <span class="main-text">Dashboard</span>
-  <span class="text-blue-500">Dashboard</span>
+<div class="grid grid-cols-12 be-red-200">
+  <%= turbo_frame_tag 'locations/search_field' %>
+  <div class="flex col-span-12 bg-gray-200">
+      <%= render 'locations/search_field' %>
+  </div>
+  <div class="flex col-span-12 bg-gray-200">
+    <%= turbo_frame_tag 'locations' do %>
+      <%= render partial: 'locations/location', collection: @locations, as: :location %>
+    <% end %>
+  </div>
+  <div class="flex col-span-12 bg-gray-200">
+<span>Добавленные места</span>
+    </div>
 </div>

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get "pages/dashboard", to: "pages#dashboard"
 
   resources :locations, only: %i[index create] do
-    get :search, on: :collection
+    post :search, on: :collection
     get :distance, on: :collection
   end
 
