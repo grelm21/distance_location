@@ -13,7 +13,7 @@
 # gem "pg"
 #
 default: &default
-  adapter: postgresql
+  adapter: postgis
   encoding: unicode
   username: <%= ENV.fetch('PG_USERNAME') %>
   password: <%= ENV.fetch('PG_PASSWORD') %>

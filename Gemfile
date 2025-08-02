@@ -74,3 +74,5 @@ end
 
 gem 'geocoder'
 gem 'httparty'
+gem 'rgeo'
+gem 'activerecord-postgis-adapter'

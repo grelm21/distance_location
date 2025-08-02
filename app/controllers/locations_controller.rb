@@ -7,7 +7,8 @@ class LocationsController < ApplicationController
   end
 
   def create
-    @location = Location.new(location_params)
+    @location = Location.new(location_params.except(:lonlat))
+    @location.lonlat = parse_point
 
     if @location.save
       render json: @location.to_json
@@ -28,7 +29,12 @@ class LocationsController < ApplicationController
 
   private
 
+  def parse_point
+    points = location_params[:lonlat_string].split(' ').map(&:to_f)
+    RGeo::Geographic.spherical_factory(srid: 4326).point(points[0], points[1])
+  end
+
   def location_params
-    params.require(:location).permit(:name, :lon, :lat, :point)
+    params.require(:location).permit(:name, :lonlat_string, :lonlat)
   end
 end
