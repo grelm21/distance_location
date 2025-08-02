@@ -10,7 +10,8 @@ class LocationsController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
-          turbo_stream.update('locations', partial: 'locations/location', collection: @locations, as: :location)
+          turbo_stream.update('search_result', partial: 'locations/search_result', collection: @locations,
+                                               as: :location)
         ]
       end
       format.json { render json: @locations.to_json }
@@ -29,6 +30,29 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.prepend('locations', @location)
+          ]
+        end
+        format.json { render json: @location.to_json }
+      else
+        format.json { render json: @location.errors.to_json, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    @location = Location.find(params[:id])
+
+    respond_to do |format|
+      if @location.destroy
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update('locations', partial: 'locations/location', collection: Location.all,
+                                             as: :location)
+          ]
+        end
         format.json { render json: @location.to_json }
       else
         format.json { render json: @location.errors.to_json, status: :unprocessable_entity }

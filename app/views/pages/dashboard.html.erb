@@ -1,14 +1,17 @@
 <div class="grid grid-cols-12 be-red-200">
   <%= turbo_frame_tag 'locations/search_field' %>
   <div class="flex col-span-12 bg-gray-200">
-      <%= render 'locations/search_field' %>
+    <%= render 'locations/search_field' %>
   </div>
   <div class="flex col-span-12 bg-gray-200">
-    <%= turbo_frame_tag 'locations' do %>
-      <%= render partial: 'locations/location', collection: @locations, as: :location %>
+    <%= turbo_frame_tag 'search_result' do %>
+      <%= render partial: 'locations/search_result', collection: @found_locations, as: :location %>
     <% end %>
   </div>
-  <div class="flex col-span-12 bg-gray-200">
-<span>Добавленные места</span>
-    </div>
+  <div class="grid grid-flow-row col-span-12 bg-gray-200">
+    <span>Добавленные места</span>
+    <%= turbo_frame_tag 'locations' do %>
+      <%= render @locations %>
+    <% end %>
+  </div>
 </div>

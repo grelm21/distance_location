@@ -1,6 +1,7 @@
 <%= turbo_frame_tag location do %>
 <div class='grid grid-flow-row bg-gray-500'>
-  <span class='text-blue-500'><%= location[:name] %></span>
-  <span class='text-blue-500'><%= location[:point] %></span>
+  <span class='text-blue-500'><%= location.name %></span>
+  <span class='text-blue-500'><%= location.lonlat_string %></span>
+  <%= button_to 'Delete', location, method: :delete, data: { turbo_frame: 'locations' } %>
 </div>
 <% end %>

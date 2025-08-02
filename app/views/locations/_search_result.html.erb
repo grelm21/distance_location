@@ -1,0 +1,11 @@
+<%= turbo_frame_tag 'search_result' do %>
+  <div class='grid grid-flow-row bg-gray-200'>
+    <span class='text-blue-500'><%= location[:name] %></span>
+    <span class='text-blue-500'><%= location[:point] %></span>
+    <%= form_for Location.build, format: :turbo_stream, data: { turbo_frame: 'locations' } do |f| %>
+      <%= f.hidden_field :name, value: location[:name] %>
+      <%= f.hidden_field :lonlat_string, value: location[:point] %>
+      <%= f.submit 'Add' %>
+    <% end %>
+  </div>
+<% end %>
