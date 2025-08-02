@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :locations, only: %i[index create destroy] do
     post :search, on: :collection
-    get :distance, on: :collection
+    post :distance, on: :collection
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

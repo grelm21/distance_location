@@ -14,4 +14,15 @@
       <%= render @locations %>
     <% end %>
   </div>
+  <div class="grid grid-flow-row col-span-12 bg-gray-200">
+    <span>Рассчет дистанции</span>
+    <%= turbo_frame_tag 'distance_selectors' do %>
+      <%= render 'locations/distance_selectors', locations: Location.all %>
+    <% end %>
+  </div>
+  <div class="grid grid-flow-row col-span-12 bg-gray-200">
+    <%= turbo_frame_tag 'distance_result' do %>
+      <%= render 'locations/distance_result', distance: @distance, from: @from, to: @to %>
+    <% end %>
+  </div>
 </div>

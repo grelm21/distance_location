@@ -1,0 +1,8 @@
+<div class='grid grid-cols-2 bg-gray-200'>
+  <%= form_with url: distance_locations_path, method: :post, format: :turbo_stream, data: { turbo_frame: "distance_selectors" } do |f| %>
+    <%= f.select :from_id, locations.map { |location| [location.name, location.id] }, include_blank: false %>
+    <%= f.select :to_id, locations.map { |location| [location.name, location.id] }, include_blank: false %>
+    <%= f.submit 'Calculate' %>
+  <% end %>
+
+</div>

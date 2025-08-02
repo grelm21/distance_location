@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:create]
+  skip_before_action :verify_authenticity_token, only: %i[create distance]
   include CoordinatesConcern
   include DistanceConcern
 
@@ -32,7 +32,11 @@ class LocationsController < ApplicationController
       if @location.save
         format.turbo_stream do
           render turbo_stream: [
-            turbo_stream.prepend('locations', @location)
+            turbo_stream.prepend('locations', @location),
+            turbo_stream.update('search_result', partial: 'locations/search_result', collection: [],
+                                                 as: :location),
+            turbo_stream.update('distance_selectors', partial: 'locations/distance_selectors',
+                                                      locals: { locations: Location.all })
           ]
         end
         format.json { render json: @location.to_json }
@@ -50,7 +54,9 @@ class LocationsController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.update('locations', partial: 'locations/location', collection: Location.all,
-                                             as: :location)
+                                             as: :location),
+            turbo_stream.update('distance_selectors', partial: 'locations/distance_selectors',
+                                                      locals: { locations: Location.all })
           ]
         end
         format.json { render json: @location.to_json }
@@ -64,9 +70,18 @@ class LocationsController < ApplicationController
     from = Location.find(params[:from_id])
     to = Location.find(params[:to_id])
 
-    @distance = distance(from, to)
+    @distance = calculate_distance(from, to)
 
-    render json: { from: from.name, to: to[:name], distance: @distance }
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update('distance_result', partial: 'locations/distance_result',
+                                                 locals: { distance: @distance,
+                                                           from: from.name, to: to.name })
+        ]
+      end
+      format.json { render json: { from: from.name, to: to[:name], distance: @distance } }
+    end
   end
 
   private
