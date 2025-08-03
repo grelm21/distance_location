@@ -19,20 +19,13 @@
     <% end %>
     <%= turbo_frame_tag 'locations' do %>
       <div class="grid grid-flow-row col-span-12">
-      <%= render @locations %>
+        <%= render @locations %>
       </div>
     <% end %>
   </div>
   <div class="grid grid-flow-row col-span-12 mt-2 gap-y-2">
-    <span class="header">Рассчет дистанции</span>
     <%= turbo_frame_tag 'distance_selectors' do %>
-      <% if Location.all.any? %>
-        <%= render 'locations/distance_selectors', locations: Location.all %>
-      <% else %>
-        <div class='grid grid-flow-row'>
-          <span class='regular-text'>Добавьте</span>
-        </div>
-      <% end %>
+      <%= render 'locations/distance_selectors', locations: Location.all %>
     <% end %>
   </div>
   <div class="grid grid-flow-row col-span-12 mt-2">

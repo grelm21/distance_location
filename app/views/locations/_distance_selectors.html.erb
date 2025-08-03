@@ -1,17 +1,24 @@
-<div class='grid'>
-  <%= form_with url: distance_locations_path, method: :post, format: :turbo_stream, data: { turbo_frame: "distance_selectors" }, class: 'grid grid-flow-row gap-y-2' do |f| %>
-    <div class='flex gap-2'>
-      <span class='header'>Откуда: </span>
-      <div class='w-full'>
-        <%= f.select :from_id, locations.map { |location| [concat_name_and_coordinates(location), location.id] }, { :include_blank => false }, { :class => 'selector' } %>
+<div class='grid gap-y-2'>
+  <span class="header">Рассчет дистанции</span>
+  <% if locations.any? %>
+    <%= form_with url: distance_locations_path, method: :post, format: :turbo_stream, data: { turbo_frame: "distance_selectors" }, class: 'grid grid-flow-row gap-y-2' do |f| %>
+      <div class='flex gap-2'>
+        <span class='header'>Откуда: </span>
+        <div class='w-full'>
+          <%= f.select :from_id, locations.map { |location| [concat_name_and_coordinates(location), location.id] }, { :include_blank => false }, { :class => 'selector' } %>
+        </div>
       </div>
-    </div>
-    <div class='flex gap-2'>
-      <span class='header'>Куда: </span>
-      <%= f.select :to_id, locations.map { |location| [concat_name_and_coordinates(location) ,location.id] }, { :include_blank => false }, { :class => 'selector' } %>
-    </div>
-    <div>
-      <%= f.submit 'Рассчитать', class: 'gray-button' %>
+      <div class='flex gap-2'>
+        <span class='header'>Куда: </span>
+        <%= f.select :to_id, locations.map { |location| [concat_name_and_coordinates(location) ,location.id] }, { :include_blank => false }, { :class => 'selector' } %>
+      </div>
+      <div>
+        <%= f.submit 'Рассчитать', class: 'gray-button' %>
+      </div>
+    <% end %>
+  <% else %>
+    <div class='grid grid-flow-row'>
+      <span class='regular-text'>Добавьте хотя бы одну локацию</span>
     </div>
   <% end %>
 </div>

@@ -116,7 +116,9 @@ class LocationsController < ApplicationController
   end
 
   def set_from_to
-    raise DistanceHandler::DistanceDestinationsNotFoundError.new('LocationsController#set_from_to') unless params[:from_id].present? && params[:to_id].present?
+    unless params[:from_id].present? && params[:to_id].present?
+      raise DistanceHandler::DistanceDestinationsNotFoundError.new('LocationsController#set_from_to')
+    end
 
     @from = Location.find(params[:from_id])
     @to = Location.find(params[:to_id])
