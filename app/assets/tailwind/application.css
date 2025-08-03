@@ -37,6 +37,10 @@
     @apply grid grid-flow-row bg-gray-100 p-4 border-1 border-gray-300 rounded-xl mt-2
   }
 
+  .error-card {
+    @apply rounded-xl p-4 bg-red-100
+  }
+
   .search-field {
     @apply bg-white w-[512px] border-1 border-gray-500 rounded-xl px-4 py-2
   }

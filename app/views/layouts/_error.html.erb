@@ -1,12 +1,12 @@
-<div class='rounded-xl p-4 bg-red-100'>
-  <span class='text-black font-bold'><%= message %></span>
+<div class='error-card'>
+  <span class='large-text'><%= message %></span>
   <% errors.each do |error| %>
     <ul>
     <%if error.is_a?(Hash) %>
-      <li class='text-red-500'>Ошибка: <%=error[:message] %></li>
+      <li class='text-red-500'><%=t("api.yandex_geocoder_error") %></li>
     <%end%>
       <%if error.respond_to?(:full_message) %>
-        <li class='text-red-500'>Ошибка: <%=error.full_message %></li>
+        <li class='text-red-500'><%=error.full_message %></li>
       <%end%>
     </ul>
   <% end %>

@@ -49,7 +49,7 @@ class LocationsController < ApplicationController
       else
         format.turbo_stream do
           html = render_to_string(partial: 'locations/search_result_wrapper',
-                                  locals: { locations: nil, errors: @location.errors, message: 'Не далось добавить локацию' }, formats: [:html])
+                                  locals: { locations: nil, errors: @location.errors, message: 'Не удалось добавить локацию' }, formats: [:html])
           render turbo_stream: [
             turbo_stream.update('search_result', html)
           ]
@@ -98,7 +98,7 @@ class LocationsController < ApplicationController
         render turbo_stream: [
           turbo_stream.update('distance_result', partial: 'locations/distance_result',
                                                  locals: { distance: nil,
-                                                           from: nil, to: nil, error: e.message })
+                                                           from: nil, to: nil, error: 'distance_error' })
         ]
       end
       format.json { render json: { error: e.message } }

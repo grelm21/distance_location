@@ -5,7 +5,7 @@ class Location < ApplicationRecord
     with: /\A-?\d+(\.\d+)?\s-?\d+(\.\d+)?\z/,
     message: 'wrong format'
   }
-  validates :name, uniqueness: { message: 'уже добавлена локация с таким названием' }
+  validate :unique_record
 
   before_save :parse_lonlat
 
@@ -22,5 +22,9 @@ class Location < ApplicationRecord
     Rails.logger.error(context: 'Location#parse_lonlat', message: 'Не удалось распарсить строку с координатами',
                        details: e.message)
     errors.add(:lonlat, 'could not parse lonlat coordinates')
+  end
+
+  def unique_record
+    errors.add(:base, :not_unique_record) if Location.exists?(name: name)
   end
 end
