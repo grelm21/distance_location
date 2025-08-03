@@ -9,11 +9,11 @@
     <% end %>
   </div>
   <div class="grid grid-flow-row col-span-12 mt-2">
-    <span class="text-black font-bold text-xl">Добавленные локации</span>
+    <span class="header">Добавленные локации</span>
     <%= turbo_frame_tag 'locations_empty_notice' do %>
       <% if @locations.empty? %>
         <div class='grid grid-flow-row py-2'>
-          <span class='text-black'>Вы еще не добавили ни одной локации</span>
+          <span class='regular-text'>Вы еще не добавили ни одной локации</span>
         </div>
       <% end %>
     <% end %>
@@ -24,20 +24,20 @@
     <% end %>
   </div>
   <div class="grid grid-flow-row col-span-12 mt-2 gap-y-2">
-    <span class="text-black font-bold text-xl">Рассчет дистанции</span>
+    <span class="header">Рассчет дистанции</span>
     <%= turbo_frame_tag 'distance_selectors' do %>
       <% if Location.all.any? %>
         <%= render 'locations/distance_selectors', locations: Location.all %>
       <% else %>
-        <div class='grid grid-flow-row py-2'>
-          <span class='text-black'>Добавьте хотя бы две локации для рассчета дистанции</span>
+        <div class='grid grid-flow-row'>
+          <span class='regular-text'>Добавьте</span>
         </div>
       <% end %>
     <% end %>
   </div>
   <div class="grid grid-flow-row col-span-12 mt-2">
     <%= turbo_frame_tag 'distance_result' do %>
-      <%= render 'locations/distance_result', distance: @distance, from: @from, to: @to, error: nil %>
+      <%= render 'locations/distance_result', distance: nil, from: nil, to: nil, error: nil %>
     <% end %>
   </div>
 </div>

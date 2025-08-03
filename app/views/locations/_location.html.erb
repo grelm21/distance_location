@@ -1,7 +1,7 @@
 <%= turbo_frame_tag location do %>
-<div class='grid grid-flow-row bg-gray-100 p-4 border-1 border-gray-300 rounded-xl mt-2'>
-  <span class='text-blue-500 font-semibold'><%= location.name %></span>
-  <span class='text-black'>Координаты: <%= location.lonlat_string %></span>
-  <%= button_to 'Удалить', location, method: :delete, data: { turbo_frame: 'locations' }, class: 'cursor-pointer text-red-500 pt-2 rounded-xl hover:font-bold' %>
+<div class='location-card'>
+  <span class='blue-text'><%= location.name %></span>
+  <span class='regular-text'>Координаты (дол., шир.): <%= location.lonlat_string %></span>
+  <%= button_to 'Удалить', location, method: :delete, data: { turbo_frame: 'locations' }, class: 'delete-button' %>
 </div>
 <% end %>

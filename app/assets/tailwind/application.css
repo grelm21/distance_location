@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+@layer components {
+  .header {
+    @apply text-black font-bold text-xl
+  }
+
+  .blue-text {
+    @apply font-semibold text-blue-500
+  }
+
+  .regular-text {
+    @apply text-black
+  }
+
+  .large-text {
+    @apply text-black text-xl
+  }
+
+  .selector {
+    @apply w-full px-2 py-1 border rounded
+  }
+
+  .gray-button {
+    @apply cursor-pointer bg-gray-500 text-white px-4 py-2 rounded-xl hover:bg-gray-600
+  }
+
+  .delete-button {
+    @apply cursor-pointer text-red-500 pt-2 rounded-xl hover:font-bold
+  }
+
+  .add-button {
+    @apply cursor-pointer text-blue-500 pt-2 rounded-xl hover:font-bold
+  }
+
+  .location-card {
+    @apply grid grid-flow-row bg-gray-100 p-4 border-1 border-gray-300 rounded-xl mt-2
+  }
+
+  .search-field {
+    @apply bg-white w-[512px] border-1 border-gray-500 rounded-xl px-4 py-2
+  }
+}

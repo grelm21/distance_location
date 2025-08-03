@@ -2,7 +2,6 @@ class LocationsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[create distance search]
   before_action :set_location, only: %i[destroy]
 
-  include CoordinatesConcern
   include DistanceConcern
 
   def search
@@ -31,8 +30,7 @@ class LocationsController < ApplicationController
   end
 
   def create
-    @location = Location.new(location_params.except(:lonlat))
-    @location.lonlat = parse_point(location_params[:lonlat_string])
+    @location = Location.new(location_params)
 
     respond_to do |format|
       if @location.save
@@ -110,7 +108,7 @@ class LocationsController < ApplicationController
   private
 
   def location_params
-    params.require(:location).permit(:name, :lonlat_string, :lonlat)
+    params.require(:location).permit(:name, :raw_lonlat)
   end
 
   def set_location

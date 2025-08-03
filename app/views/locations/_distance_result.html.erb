@@ -1,8 +1,8 @@
 <% if distance.present? || error.present? %>
   <div class='grid col-span-2'>
-    <span class='text-black font-semibold text-xl'>Результат</span>
+    <span class='header'>Результат</span>
     <% unless error.present? %>
-      <div>Прямое расстояние от <span class='font-semibold text-blue-500'><%= from %></span> до <span class='font-semibold text-blue-500'><%= to %></span>: <span class='font-bold'><%= distance %> км</span></div>
+      <div class="regular-text text-xl">Прямое расстояние от <span class='blue-text'><%= from %></span> до <span class='blue-text'><%= to %></span>: <span class='header'><%= distance %> км</span></div>
     <% end %>
     <% if error.present? %>
       <div class='text-red-500'><%= error %></div>

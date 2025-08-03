@@ -3,7 +3,7 @@
     <span class='text-black'><%= location[:point] %></span>
     <%= form_for Location.build, format: :turbo_stream, data: { turbo_frame: 'locations' } do |f| %>
       <%= f.hidden_field :name, value: location[:name] %>
-      <%= f.hidden_field :lonlat_string, value: location[:point] %>
-      <%= f.submit 'Добавить', class: 'cursor-pointer text-blue-500 py-2 rounded-xl hover:font-bold' %>
+      <%= f.hidden_field :raw_lonlat, value: location[:point] %>
+      <%= f.submit 'Добавить', class: 'add-button' %>
     <% end %>
   </div>
