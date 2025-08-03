@@ -1,8 +1,15 @@
-<div class='grid grid-cols-2 bg-gray-200'>
-  <%= form_with url: distance_locations_path, method: :post, format: :turbo_stream, data: { turbo_frame: "distance_selectors" } do |f| %>
-    <%= f.select :from_id, locations.map { |location| [location.name, location.id] }, include_blank: false %>
-    <%= f.select :to_id, locations.map { |location| [location.name, location.id] }, include_blank: false %>
-    <%= f.submit 'Calculate' %>
+<div class='grid grid-cols-2'>
+  <%= form_with url: distance_locations_path, method: :post, format: :turbo_stream, data: { turbo_frame: "distance_selectors" }, class: 'grid grid-flow-row gap-y-2' do |f| %>
+    <div class='flex gap-2'>
+      <span class='text-black font-semibold'>Откуда</span>
+      <%= f.select :from_id, locations.map { |location| [location.name, location.id] }, include_blank: false %>
+    </div>
+    <div class='flex gap-2'>
+      <span class='text-black font-semibold'>Куда</span>
+      <%= f.select :to_id, locations.map { |location| [location.name, location.id] }, include_blank: false %>
+    </div>
+    <div>
+      <%= f.submit 'Рассчитать', class: 'cursor-pointer bg-gray-500 text-white px-4 py-2 rounded-xl hover:bg-gray-600' %>
+    </div>
   <% end %>
-
 </div>

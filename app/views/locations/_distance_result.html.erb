@@ -1,6 +1,6 @@
 <% if distance.present? %>
-  <div class='grid col-span-2 bg-gray-200'>
-    <span>Результат</span>
-    <div>Прямое расстояние от <%= from %> до <%= to %>: <%= distance %> км</div>
+  <div class='grid col-span-2'>
+    <span class='text-black font-semibold'>Результат</span>
+    <div>Прямое расстояние от <span class='font-semibold'><%= from %></span> до <span class='font-semibold'><%= to %></span>: <span class='font-bold'><%= distance %></span> км</div>
   </div>
 <% end %>
