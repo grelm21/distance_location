@@ -1,0 +1,13 @@
+<div class='rounded-xl p-4 bg-red-100'>
+  <span class='text-black font-bold'><%= message %></span>
+  <% errors.each do |error| %>
+    <ul>
+    <%if error.is_a?(Hash) %>
+      <li class='text-red-500'>Ошибка: <%=error[:message] %></li>
+    <%end%>
+      <%if error.respond_to?(:full_message) %>
+        <li class='text-red-500'>Ошибка: <%=error.full_message %></li>
+      <%end%>
+    </ul>
+  <% end %>
+</div>

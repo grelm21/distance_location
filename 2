@@ -1,6 +1,7 @@
 class LocationsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: %i[create distance search]
   before_action :set_location, only: %i[destroy]
+  before_action :set_from_to, only: %i[distance]
 
   include CoordinatesConcern
   include DistanceConcern
@@ -80,7 +81,6 @@ class LocationsController < ApplicationController
   end
 
   def distance
-    set_from_to
     @distance = calculate_distance(@from, @to)
 
     respond_to do |format|
@@ -88,22 +88,10 @@ class LocationsController < ApplicationController
         render turbo_stream: [
           turbo_stream.update('distance_result', partial: 'locations/distance_result',
                                                  locals: { distance: @distance,
-                                                           from: @from.name, to: @to.name, error: nil })
+                                                           from: @from.name, to: @to.name })
         ]
       end
       format.json { render json: { from: from.name, to: to[:name], distance: @distance } }
-    end
-  rescue DistanceHandler::DistanceDestinationsNotFoundError, DistanceHandler::DistanceCalculationError => e
-    Rails.logger.error(message: e.message, context: e.context)
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update('distance_result', partial: 'locations/distance_result',
-                                                 locals: { distance: nil,
-                                                           from: nil, to: nil, error: e.message })
-        ]
-      end
-      format.json { render json: { error: e.message } }
     end
   end
 
@@ -118,8 +106,6 @@ class LocationsController < ApplicationController
   end
 
   def set_from_to
-    raise DistanceHandler::DistanceDestinationsNotFoundError.new('LocationsController#set_from_to') unless params[:from_id].present? && params[:to_id].present?
-
     @from = Location.find(params[:from_id])
     @to = Location.find(params[:to_id])
   end

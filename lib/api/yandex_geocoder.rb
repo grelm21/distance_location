@@ -22,12 +22,16 @@ module Api
 
     def location
       response = self.class.get('/', query: query_params)
-
-      return { errors: response.body } unless response.success?
+      unless response.success?
+        Rails.logger.error response.body
+        return { errors: [JSON.parse(response.body, symbolize_names: true)] }
+      end
 
       parse_location_response(response)
     rescue HTTParty::Error => e
-      { error: e.message }
+      error = { error: e.message, message: 'Ошибка поиска географического местоположения в Яндексе Геокодере.' }
+      Rails.logger.error error
+      { errors: [error] }
     end
 
     private
@@ -55,7 +59,7 @@ module Api
           point: point
         }
       end
-      kind.present? ? kind_filter(out) : out
+      { result: (kind.present? ? kind_filter(out) : out) }
     end
 
     def kind_filter(output)
