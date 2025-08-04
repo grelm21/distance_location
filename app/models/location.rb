@@ -9,6 +9,8 @@ class Location < ApplicationRecord
 
   before_save :parse_lonlat
 
+  enum kind: %i[town]
+
   def lonlat_string
     "#{lonlat.x}, #{lonlat.y}"
   end
