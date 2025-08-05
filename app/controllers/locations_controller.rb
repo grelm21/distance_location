@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 class LocationsController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: %i[create distance search]
-  before_action :set_location, only: %i[destroy]
+  skip_before_action :verify_authenticity_token, if: -> { request.format.json? }
+  before_action :set_location, only: %i[show destroy]
+  rescue_from DistanceHandler::DistanceDestinationsNotFoundError, DistanceHandler::DistanceCalculationError,
+              with: :handle_distance_error
 
   include DistanceConcern
 
@@ -27,6 +31,10 @@ class LocationsController < ApplicationController
     @locations = Location.all
 
     render json: @locations.to_json
+  end
+
+  def show
+    render json: @location.to_json
   end
 
   def create
@@ -79,7 +87,7 @@ class LocationsController < ApplicationController
 
   def distance
     set_from_to
-    @distance = calculate_distance(@from, @to)
+    @distance = calculate_straight_distance(@from, @to)
 
     respond_to do |format|
       format.turbo_stream do
@@ -89,19 +97,7 @@ class LocationsController < ApplicationController
                                                            from: @from.name, to: @to.name, error: nil })
         ]
       end
-      format.json { render json: { from: from.name, to: to[:name], distance: @distance } }
-    end
-  rescue DistanceHandler::DistanceDestinationsNotFoundError, DistanceHandler::DistanceCalculationError => e
-    Rails.logger.error(message: e.message, context: e.context)
-    respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update('distance_result', partial: 'locations/distance_result',
-                                                 locals: { distance: nil,
-                                                           from: nil, to: nil, error: 'distance_error' })
-        ]
-      end
-      format.json { render json: { error: e.message } }
+      format.json { render json: { from: @from.name, to: @to.name, distance: @distance } }
     end
   end
 
@@ -117,10 +113,24 @@ class LocationsController < ApplicationController
 
   def set_from_to
     unless params[:from_id].present? && params[:to_id].present?
-      raise DistanceHandler::DistanceDestinationsNotFoundError.new('LocationsController#set_from_to')
+      raise DistanceHandler::DistanceDestinationsNotFoundError, 'LocationsController#set_from_to'
     end
 
     @from = Location.find(params[:from_id])
     @to = Location.find(params[:to_id])
+  end
+
+  def handle_distance_error(e)
+    Rails.logger.error(message: e.message, context: e.context)
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.update('distance_result', partial: 'locations/distance_result',
+                                                 locals: { distance: nil,
+                                                           from: nil, to: nil, error: 'distance_error' })
+        ]
+      end
+      format.json { render json: { error: e.message } }
+    end
   end
 end

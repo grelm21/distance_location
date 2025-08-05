@@ -1,36 +1,26 @@
-<div class="grid grid-cols-12 p-4">
+<div class="grid grid-cols-12 p-4 gap-2">
   <%= turbo_frame_tag 'locations/search_field' %>
   <div class="grid grid-flow-row col-span-12">
     <%= render 'locations/search_field' %>
   </div>
-  <div class="flex col-span-12 mt-2">
-    <%= turbo_frame_tag 'search_result' do %>
-      <%= render partial: 'locations/search_result_wrapper', locals: { locations: nil, errors: [] } %>
-    <% end %>
-  </div>
-  <div class="grid grid-flow-row col-span-12 mt-2">
+  <%= turbo_frame_tag 'search_result', class: 'grid grid-flow-row col-span-12' do %>
+    <%= render partial: 'locations/search_result_wrapper', locals: { locations: nil, errors: [] } %>
+  <% end %>
+  <div class="grid grid-flow-row col-span-12">
     <span class="header">Добавленные локации</span>
-    <%= turbo_frame_tag 'locations_empty_notice' do %>
+    <%= turbo_frame_tag 'locations_empty_notice', class: 'grid grid-flow-row' do %>
       <% if @locations.empty? %>
-        <div class='grid grid-flow-row py-2'>
-          <span class='regular-text'>Вы еще не добавили ни одной локации</span>
-        </div>
+        <span class='regular-text mt-2'>Вы еще не добавили ни одной локации</span>
       <% end %>
     <% end %>
-    <%= turbo_frame_tag 'locations' do %>
-      <div class="grid grid-flow-row col-span-12">
-        <%= render @locations %>
-      </div>
-    <% end %>
   </div>
-  <div class="grid grid-flow-row col-span-12 mt-2 gap-y-2">
-    <%= turbo_frame_tag 'distance_selectors' do %>
-      <%= render 'locations/distance_selectors', locations: Location.all %>
-    <% end %>
-  </div>
-  <div class="grid grid-flow-row col-span-12 mt-2">
-    <%= turbo_frame_tag 'distance_result' do %>
-      <%= render 'locations/distance_result', distance: nil, from: nil, to: nil, error: nil %>
-    <% end %>
-  </div>
+  <%= turbo_frame_tag 'locations', class: 'grid col-span-12 grid-cols-2 gap-4' do %>
+    <%= render @locations %>
+  <% end %>
+  <%= turbo_frame_tag 'distance_selectors',class: 'grid grid-flow-row col-span-12 gap-y-2' do %>
+    <%= render 'locations/distance_selectors', locations: Location.all %>
+  <% end %>
+  <%= turbo_frame_tag 'distance_result', class: 'grid grid-flow-row col-span-12' do %>
+    <%= render 'locations/distance_result', distance: nil, from: nil, to: nil, error: nil %>
+  <% end %>
 </div>

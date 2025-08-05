@@ -1,8 +1,10 @@
 class Location < ApplicationRecord
+  attribute :raw_lonlat, :string
   validates :name, presence: true
+  validates :raw_lonlat, presence: true
   validates :raw_lonlat, format: {
     with: /\A-?\d+(\.\d+)?\s-?\d+(\.\d+)?\z/,
-    message: 'wrong format'
+    message: 'invalid'
   }
   validate :unique_record
 

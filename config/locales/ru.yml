@@ -8,6 +8,7 @@ ru:
       location:
         name: Название
         lonlat: Координаты
+        raw_lonlat: Строка с координатами
     errors:
       models:
         location:
