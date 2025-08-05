@@ -13,5 +13,6 @@ fi
 ./bin/rails db:prepare
 ./bin/rails tailwindcss:build
 
-
 bundle exec rails s -b 0.0.0.0 -e development
+
+
