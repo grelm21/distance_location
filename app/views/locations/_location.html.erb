@@ -1,7 +1,8 @@
 <%= turbo_frame_tag location do %>
-<div class='location-card'>
-  <span class='blue-text'><%= location.name %></span>
-  <span class='regular-text'>Координаты (дол., шир.): <%= location.lonlat_string %></span>
-  <%= button_to 'Удалить', location, method: :delete, data: { turbo_frame: 'locations' }, class: 'delete-button' %>
-</div>
+  <div class='location-card'>
+    <span class='blue-text'><%= location.name %></span>
+    <span class='regular-text'>Координаты (дол., шир.): <%= location.lonlat_string %></span>
+    <span class='regular-text'>Добавлен: <%= l location.created_at, format: :long %></span>
+    <%= button_to 'Удалить', location, method: :delete, data: { turbo_frame: 'locations' }, class: 'delete-button' %>
+  </div>
 <% end %>
