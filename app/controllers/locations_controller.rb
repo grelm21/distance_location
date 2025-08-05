@@ -18,7 +18,7 @@ class LocationsController < ApplicationController
         html = render_to_string(partial: 'locations/search_result_wrapper',
                                 locals: { locations: @locations[:result] || [],
                                           errors: @locations[:errors] || [],
-                                          message: 'Не далось получить локации' },
+                                          message: 'Не удалось получить локации' },
                                 formats: [:html])
         render turbo_stream: [
           turbo_stream.update('search_result', html)

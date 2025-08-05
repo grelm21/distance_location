@@ -1,5 +1,5 @@
 <% if errors.present? %>
-  <div class='grid grid-flow-row py-2'>
+  <div class='grid grid-cols-2 py-2'>
     <%= render partial: 'layouts/error', locals: { message: message || nil ,errors: errors } %>
   </div>
 <% end %>
