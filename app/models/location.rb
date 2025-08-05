@@ -1,5 +1,4 @@
 class Location < ApplicationRecord
-  attribute :raw_lonlat, :string
   validates :name, presence: true
   validates :raw_lonlat, format: {
     with: /\A-?\d+(\.\d+)?\s-?\d+(\.\d+)?\z/,

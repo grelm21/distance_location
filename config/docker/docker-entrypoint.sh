@@ -11,6 +11,4 @@ if [ -f tmp/pids/server_2.pid ]; then
 fi
 
 
-# bundle exec whenever --update-crontab
-# cron
 bundle exec rails s -b 0.0.0.0 -e development
